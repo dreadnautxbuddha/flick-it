@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Authentication;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 
 /**
- * @package App\Http\Controllers\Authentication
+ * @package App\Http\Controllers\Auth
  *
  * @author  Peter Cortez <innov.petercortez@gmail.com>
  */

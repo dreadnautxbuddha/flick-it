@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\CallbackController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RedirectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,4 +16,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', 'App\Http\Controllers\Authentication\LoginController@index');
+
+Route::group(['prefix' => 'auth', 'middleware' => ['guest']], function ($group) {
+    Route::get('/login', 'App\Http\Controllers\Auth\LoginController@index')->name('auth.login');
+    Route::get('/redirect', RedirectController::class)->name('auth.redirect');
+    Route::get('/callback', CallbackController::class)->name('auth.callback');
+
+    Route::get('/logout', LogoutController::class)
+        ->name('auth.logout')
+        ->withoutMiddleware('guest')
+        ->middleware('auth');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'App\Http\Controllers\GalleryController@index')->name('home');
+});

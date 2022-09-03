@@ -30,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'flickr' => [
+        'client_id' => env('FLICKR_APP_API_KEY'),
+        'client_secret' => env('FLICKR_APP_API_SECRET'),
+        'redirect' => env('FLICKR_OAUTH_CALLBACK_URL')
+    ],
 ];

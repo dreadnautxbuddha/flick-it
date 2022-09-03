@@ -15,11 +15,12 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('flickr_id')->unique();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('nickname')->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->string('flickr_token');
+            $table->string('flickr_refresh_token');
             $table->timestamps();
         });
     }

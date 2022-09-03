@@ -18,9 +18,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'flickr_id',
         'name',
+        'nickname',
         'email',
-        'password',
+        'flickr_token',
+        'flickr_refresh_token',
     ];
 
     /**
