@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::group(['prefix' => 'auth', 'middleware' => ['guest']], function ($group) {
     Route::get('/login', LoginController::class)->name('auth.login');
     Route::get('/redirect', RedirectController::class)->name('auth.redirect');
@@ -25,8 +24,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['guest']], function ($group) 
 
     Route::get('/logout', LogoutController::class)
         ->name('auth.logout')
-        ->withoutMiddleware('guest')
-        ->middleware('auth');
+        ->withoutMiddleware('guest');
 });
 
 Route::middleware(['auth'])->group(function () {

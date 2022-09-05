@@ -11,18 +11,6 @@ use function route;
 class LoginControllerTest extends TestCase
 {
     /**
-     * @var \GuzzleHttp\Promise\PromiseInterface
-     */
-    protected $response;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->response = Http::response('oauth_callback_confirmed=true&oauth_token=72157720855855640-e4ad2b8ba40d9e85&oauth_token_secret=df3da781e8ca7be2');
-    }
-
-    /**
      * Verifies that the user will be redirected to the homepage when accessing the
      * login page while authenticated.
      *
