@@ -38,8 +38,8 @@ class CallbackControllerTest extends TestCase
         $user = User::factory()->create();
         $userMock = $this->getMockedOneUser(['getId' => $user->flickr_id]);
         Socialite::shouldReceive('driver->user')->andReturn($userMock);
-        $this->be($user);
 
+        $this->be($user);
         $response = $this->get(
             "{$this->route}?oauth_token=72157720855916832-399c4f475368235e&oauth_verifier=2354699563309718"
         );

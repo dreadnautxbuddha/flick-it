@@ -9,16 +9,20 @@
     @include('common.styles')
 </head>
     <body class="antialiased">
-        <div class="container relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            @include('common.navigation')
+        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+            <div class="container mx-auto">
+                @include('common.navigation')
 
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                @include('common.header')
+                <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+                    @include('common.header')
 
-                @yield('content')
+                    @yield('content')
 
-                @include('common.footer')
+                    @include('common.footer')
+                </div>
             </div>
         </div>
     </body>
+
+    @include('common.scripts')
 </html>
