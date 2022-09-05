@@ -3,6 +3,7 @@
 namespace Tests\Unit\app\Http\Controllers\Auth;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 use function env;
@@ -10,6 +11,8 @@ use function route;
 
 class LoginControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Verifies that the user will be redirected to the homepage when accessing the
      * login page while authenticated.

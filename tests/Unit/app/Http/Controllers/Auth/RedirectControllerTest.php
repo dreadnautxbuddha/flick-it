@@ -3,12 +3,14 @@
 namespace Tests\Unit\app\Http\Controllers\Auth;
 
 use App\Models\User;
-use Laravel\Socialite\Facades\Socialite;
 use Tests\TestCase;
 use function route;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RedirectControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @var string
      */

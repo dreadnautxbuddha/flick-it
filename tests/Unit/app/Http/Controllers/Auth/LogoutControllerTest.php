@@ -3,12 +3,15 @@
 namespace Tests\Unit\app\Http\Controllers\Auth;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 use function route;
 
 class LogoutControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @var string
      */
