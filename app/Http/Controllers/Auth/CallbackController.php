@@ -29,11 +29,9 @@ class CallbackController extends Controller
     /**
      * @todo Maybe we don't have to save the user in the database? (see GenericUser)
      *
-     * @param \Illuminate\Http\Request $request
-     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function __invoke(Request $request)
+    public function __invoke()
     {
         $flickrUser = Socialite::driver('flickr')->user();
         $user = User::findByFlickrId($flickrUser->getId())->first() ?? new User;
