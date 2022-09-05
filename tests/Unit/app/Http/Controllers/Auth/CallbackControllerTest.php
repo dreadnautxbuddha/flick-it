@@ -5,10 +5,12 @@ namespace Tests\Unit\app\Http\Controllers\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
+use InvalidArgumentException;
 use Laravel\Socialite\Facades\Socialite;
 use Tests\Support\Concerns\MocksSocialite;
 use Tests\TestCase;
 use function route;
+use League\OAuth1\Client\Credentials\CredentialsException;
 
 class CallbackControllerTest extends TestCase
 {
@@ -168,5 +170,39 @@ class CallbackControllerTest extends TestCase
         );
 
         $response->assertRedirect(route('home'));
+    }
+
+    /**
+     * When socialite throws a CredentialsException exception, the user should be
+     * redirected to the login page again.
+     *
+     * @return void
+     */
+    public function testCallbackController_whenCredentialsExceptionIsThrown_shouldRedirectToLoginPage()
+    {
+        Socialite::shouldReceive('driver->user')->andThrow(new CredentialsException());
+
+        $response = $this->get(
+            "{$this->route}?oauth_token=72157720855916832-399c4f475368235e&oauth_verifier=2354699563309718"
+        );
+
+        $response->assertRedirect(route('auth.login'));
+    }
+
+    /**
+     * When socialite throws a InvalidArgument exception, the user should be
+     * redirected to the login page again.
+     *
+     * @return void
+     */
+    public function testCallbackController_whenInvalidArgumentIsThrown_shouldRedirectToLoginPage()
+    {
+        Socialite::shouldReceive('driver->user')->andThrow(new InvalidArgumentException());
+
+        $response = $this->get(
+            "{$this->route}?oauth_token=72157720855916832-399c4f475368235e&oauth_verifier=2354699563309718"
+        );
+
+        $response->assertRedirect(route('auth.login'));
     }
 }

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use InvalidArgumentException;
 use Laravel\Socialite\Facades\Socialite;
+use League\OAuth1\Client\Credentials\CredentialsException;
 
 use function redirect;
 use function route;
@@ -33,7 +34,19 @@ class CallbackController extends Controller
      */
     public function __invoke()
     {
-        $flickrUser = Socialite::driver('flickr')->user();
+        try {
+            $flickrUser = Socialite::driver('flickr')->user();
+        } catch (CredentialsException $e) {
+            // This means that the user has potentially tampered with the credentials
+            // in the URL. In a real-world environment, we should throw an exception
+            // here to let the user know that the action has failed. But for now, to
+            // make things quick, let's just redirect the user to the login page
+            // without letting them know why.
+            return redirect(route('auth.login'));
+        } catch (InvalidArgumentException $e) {
+            return redirect(route('auth.login'));
+        }
+
         $user = User::findByFlickrId($flickrUser->getId())->first() ?? new User;
 
         $user->fill([
