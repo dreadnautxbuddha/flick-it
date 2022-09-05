@@ -28,5 +28,5 @@ Route::group(['prefix' => 'auth', 'middleware' => ['guest']], function ($group) 
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', 'App\Http\Controllers\GalleryController@index')->name('home');
+    Route::get('/', 'App\Http\Controllers\GalleryController@index')->name('home');
 });
