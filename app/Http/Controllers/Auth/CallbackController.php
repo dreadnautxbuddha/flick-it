@@ -36,9 +36,9 @@ class CallbackController extends Controller
     public function __invoke(Request $request)
     {
         $flickrUser = Socialite::driver('flickr')->user();
-        $user = User::updateOrCreate([
-            'flickr_id' => $flickrUser->getId(),
-        ], [
+        $user = User::findByFlickrId($flickrUser->getId())->first() ?? new User;
+
+        $user->fill([
             'flickr_id' => $flickrUser->getId(),
             'name' => $flickrUser->getName(),
             'nickname' => $flickrUser->getNickname(),
@@ -46,6 +46,7 @@ class CallbackController extends Controller
             'flickr_token' => $flickrUser->token,
             'flickr_refresh_token' => $flickrUser->tokenSecret,
         ]);
+        $user->save();
 
         Auth::login($user);
 

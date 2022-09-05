@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder findByFlickrId(string $getId)
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -44,4 +47,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Looks for a user by its `flickr_id` attribute.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param                                       $flickrId
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFindByFlickrId(Builder $query, $flickrId): Builder
+    {
+        return $query->where('flickr_id', $flickrId);
+    }
 }
