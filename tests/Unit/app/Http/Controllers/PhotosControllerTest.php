@@ -29,7 +29,7 @@ class PhotosControllerTest extends TestCase
      *
      * @return void
      */
-    public function testPhotosController_byDefault_shouldLimitReturnedPhotosTo100()
+    public function testIndex_byDefault_shouldLimitReturnedPhotosTo100()
     {
         $mock = $this->partialMock(
             PhotoRepository::class,
@@ -54,7 +54,7 @@ class PhotosControllerTest extends TestCase
      *
      * @return void
      */
-    public function testPhotosController_shouldReadPaginateUsingQueryParameters()
+    public function testIndex_shouldReadPaginateUsingQueryParameters()
     {
         $mock = $this->partialMock(
             PhotoRepository::class,
@@ -85,7 +85,7 @@ class PhotosControllerTest extends TestCase
      *
      * @return void
      */
-    public function testPhotosController_whenPerPageIsNotInteger_shouldLimitTo100()
+    public function testIndex_whenPerPageIsNotInteger_shouldLimitTo100()
     {
         $mock = $this->partialMock(
             PhotoRepository::class,
@@ -115,7 +115,7 @@ class PhotosControllerTest extends TestCase
      *
      * @return void
      */
-    public function testPhotosController_shouldReturnPhotosFromRepository()
+    public function testIndex_shouldReturnPhotosFromRepository()
     {
         $collection = new Collection(collect(['id' => 'my-photos-id']));
         $this->app->bind(

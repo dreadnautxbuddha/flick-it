@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 use function is_numeric;
 
 /**
- * Returns all photos under a specific gallery available to a user
- *
  * @package App\Http\Controllers
  *
  * @author  Peter Cortez <innov.petercortez@gmail.com>
@@ -17,12 +15,14 @@ use function is_numeric;
 class PhotosController extends Controller
 {
     /**
+     * Returns all photos under a specific gallery available to a user
+     *
      * @param string                   $galleryId
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function __invoke(string $galleryId, Request $request): JsonResponse
+    public function index(string $galleryId, Request $request): JsonResponse
     {
         $perPage = $request->get('per_page');
         $continuation = $request->get('continuation', '0');

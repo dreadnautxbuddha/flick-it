@@ -34,6 +34,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::prefix('gallery')->group(function () {
         Route::get('/', GalleriesController::class)->name('gallery');
-        Route::get('/{galleryId}/photos', PhotosController::class)->name('gallery.photos');
+        Route::get('/{galleryId}/photos', PhotosController::class.'@index')->name('gallery.photos');
     });
 });
