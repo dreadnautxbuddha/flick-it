@@ -4,14 +4,10 @@ namespace App\Providers;
 
 use App\Services\Flickr\Http\Middlewares\JsonRequest;
 use App\Services\Flickr\Http\Middlewares\OAuth1;
-use GuzzleHttp\Handler\CurlHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
-use GuzzleHttp\Psr7\Uri;
+use App\Services\Flickr\Repositories\Support\Contracts\GalleryRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
-use Psr\Http\Message\RequestInterface;
 use function env;
 
 /**
@@ -47,6 +43,10 @@ class FlickrServiceProvider extends ServiceProvider
 
         $this->app->bind(JsonRequest::class, function () {
             return new JsonRequest();
+        });
+
+        $this->app->bind(GalleryRepository::class, function () {
+            return new \App\Services\Flickr\Repositories\GalleryRepository();
         });
 
         Http::macro(

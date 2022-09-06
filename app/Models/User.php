@@ -10,6 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @method static \Illuminate\Database\Eloquent\Builder findByFlickrId(string $getId)
+ * @property mixed $flickr_token
+ * @property mixed $flickr_refresh_token
  */
 class User extends Authenticatable
 {
