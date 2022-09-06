@@ -73,6 +73,16 @@ class PhotoRepository implements Support\Contracts\PhotoRepository
      */
     public function find(string $id): ?Entity
     {
-        return null;
+        try {
+            $request = Http::flickr()
+                ->get('', ['method' => 'flickr.photos.getInfo', 'photo_id' => $id])
+                ->json();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            return null;
+        }
+
+        return new Photo(Arr::get($request, 'photo', []));
     }
 }
