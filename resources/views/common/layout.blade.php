@@ -25,4 +25,6 @@
     </body>
 
     @include('common.scripts')
+
+    @yield('additional-scripts')
 </html>
