@@ -2,6 +2,8 @@
 
 namespace App\Services\Flickr\Entities;
 
+use function sprintf;
+
 /**
  * Represents a Flickr Photo
  *
@@ -11,5 +13,42 @@ namespace App\Services\Flickr\Entities;
  */
 class Photo extends Support\Entity
 {
-    // ..
+    /**
+     * The image url format to the original file size
+     *
+     * Find more about it {@link https://www.flickr.com/services/api/misc.urls.html here}
+     *
+     * @const string
+     */
+    const URL_FORMAT = 'https://live.staticflickr.com/%s/%s_%s.jpg';
+
+    /**
+     * Returns a URL to the full-sized version of the photo.
+     *
+     * @return string
+     */
+    public function originalUrl(): string
+    {
+        return sprintf(
+            self::URL_FORMAT,
+            $this->get('server'),
+            $this->get('id'),
+            $this->get('secret'),
+        );
+    }
+
+    /**
+     * Returns a URL to the thumbnail version of the photo.
+     *
+     * @return string
+     */
+    public function thumbnailUrl(): string
+    {
+        return sprintf(
+            self::URL_FORMAT,
+            $this->get('server'),
+            $this->get('id'),
+            $this->get('secret') . '_s'
+        );
+    }
 }
