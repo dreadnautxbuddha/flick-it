@@ -3,6 +3,7 @@
 namespace App\Services\Flickr\Entities\Support;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Arr;
 
 class Entity implements Arrayable
 {
@@ -17,6 +18,20 @@ class Entity implements Arrayable
     public function __construct(array $attributes)
     {
         $this->attributes = $attributes;
+    }
+
+    /**
+     * Returns an attribute identified by its index. If not found, the default value
+     * will be returned instead.
+     *
+     * @param $index
+     * @param $default
+     *
+     * @return array|\ArrayAccess|mixed
+     */
+    public function get($index, $default = null)
+    {
+        return Arr::get($this->attributes, $index, $default);
     }
 
     /**
