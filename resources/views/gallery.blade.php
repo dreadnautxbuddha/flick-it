@@ -4,7 +4,7 @@
 
 @section('content')
     <template class="modal-template">
-        <div class="flickr-${id} modal fade" tabindex="-1" role="dialog">
+        <div class="flickr-${id} modal fade" tabindex="-1" role="dialog" data-gallery-id="${galleryId}" data-photo-id="${id}">
             <div class="modal-dialog mw-100 modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -19,8 +19,8 @@
                                     <img class="img-responsive mx-auto" src="${src}">
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="card-title">Card title</h4>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <h4 class="card-title"></h4>
+                                    <p class="card-text"></p>
                                 </div>
                             </div>
                         </div>
@@ -94,11 +94,26 @@
 
               const originals = (response?.data?.records || [])
                 .map(({ id, original_url, title }) => {
-                  return createOriginalImageModal(id, original_url, title);
+                  return createOriginalImageModal(galleryId, id, original_url, title);
                 });
 
               $('.tab-pane.active').append(thumbnails);
               $('#v-pills-tabContent').append(originals);
+            }
+          });
+        });
+
+        $(document).on('shown.bs.modal', '.modal', function () {
+          const galleryId = $(this).data('gallery-id');
+          const photoId = $(this).data('photo-id');
+
+          $.ajax({
+            url: `{{ route('gallery') }}/${galleryId}/photos/${photoId}`,
+            type: 'GET',
+            dataType: 'JSON',
+            success: ({ data }) => {
+              $(this).find('.card-title').text(data.title._content);
+              $(this).find('.card-text').text(data.description._content);
             }
           });
         });
@@ -153,14 +168,20 @@
         /**
          * Creates an image modal where we're going to display the full image size
          *
+         * @param galleryId
          * @param id
          * @param src
          * @param text
          *
          * @returns {*|jQuery|HTMLElement}
          */
-        const createOriginalImageModal = (id, src, text) => {
-          return $(interpolate($('.modal-template').html(), { id, src, text }));
+        const createOriginalImageModal = (galleryId, id, src, text) => {
+          return $(interpolate($('.modal-template').html(), {
+            galleryId,
+            id,
+            src,
+            text
+          }));
         }
 
         /**
