@@ -4,6 +4,7 @@ namespace App\Services\Flickr\Repositories;
 
 use App\Services\Flickr\Entities\Collection;
 use App\Services\Flickr\Entities\Gallery;
+use App\Services\Flickr\Entities\Support\Entity;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -51,5 +52,13 @@ class GalleryRepository implements Support\Contracts\GalleryRepository
             Arr::get($request, 'galleries.per_page'),
             Arr::get($request, 'galleries.total')
         );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function find(string $id): ?Entity
+    {
+        return null;
     }
 }

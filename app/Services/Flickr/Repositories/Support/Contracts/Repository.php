@@ -3,6 +3,7 @@
 namespace App\Services\Flickr\Repositories\Support\Contracts;
 
 use App\Services\Flickr\Entities\Collection;
+use App\Services\Flickr\Entities\Support\Entity;
 
 /**
  * @package App\Services\Flickr\Repositories\Support\Contracts
@@ -25,4 +26,13 @@ interface Repository
      * @return \App\Services\Flickr\Entities\Collection
      */
     public function get(?int $limit = 100, string $offset = '0'): Collection;
+
+    /**
+     * Returns a single entity from Flickr.
+     *
+     * @param string $id
+     *
+     * @return \App\Services\Flickr\Entities\Support\Entity|null
+     */
+    public function find(string $id): ?Entity;
 }
