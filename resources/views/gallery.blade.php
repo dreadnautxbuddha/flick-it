@@ -5,9 +5,9 @@
 @section('content')
     <div class="col-md-12">
         <div class="row text-center gallery-title"><h3></h3></div>
-        <div class="d-flex align-items-start">
+        <div class="d-flex align-items-start gallery">
             <div class="nav flex-column nav-pills me-3 col-md-3" id="v-pills-tab" role="tablist" aria-orientation="vertical"></div>
-            <div class="tab-content col-md-9 text-center" id="v-pills-tabContent"></div>
+            <div class="tab-content col-md-7 text-center" id="v-pills-tabContent"></div>
         </div>
     </div>
 @endsection
@@ -34,8 +34,30 @@
           }
         });
 
-        $(document).on('click', '.nav-link', () => {
-            $('.gallery-title h3').text(`${$('.tab-pane.active').data('label')} Photo Gallery`);
+        $(document).on('click', '.nav-link', function () {
+          $('.tab-pane').empty();
+          $('.gallery-title h3').text(`${$('.tab-pane.active').data('label')} Photo Gallery`);
+
+          const galleryId = $(this).data('gallery-id');
+          $.ajax({
+            url: `{{ route('gallery') }}/${galleryId}/photos`,
+            type: 'GET',
+            dataType: 'JSON',
+            success: response => {
+              const thumbnails = (response?.data?.records || [])
+                .map(({ id, thumbnail_url, title }) => {
+                  return createImage(id, thumbnail_url, title);
+                });
+
+              const originals = (response?.data?.records || [])
+                .map(({ id, original_url, title }) => {
+                  return createOriginalImageModal(id, original_url, title);
+                });
+
+              $('.tab-pane.active').append(thumbnails);
+              $('.gallery').append(originals);
+            }
+          });
         });
 
         /**
@@ -71,12 +93,56 @@
          */
         const createNavTarget = (galleryId, text) => {
           return $('<div />', {
-            class: 'tab-pane',
+            class: 'tab-pane d-flex justify-content-between',
             id: `v-pills-${galleryId}`,
             role: 'tabpanel',
             'data-label': text,
             'aria-labelledby': `v-pills-${galleryId}-tab`,
           });
+        }
+
+        /**
+         * Creates an image element out of the given id, src, and text attributes
+         *
+         * @param id
+         * @param src
+         * @param text
+         *
+         * @returns {*|jQuery|HTMLElement}
+         */
+        const createImage = (id, src, text) => {
+          return $('<img />', {
+            src,
+            class: 'img-responsive ml-auto mr-auto mx-auto',
+            'data-toggle': 'modal',
+            'data-target': `.flickr-${id}`,
+          });
+        }
+
+        /**
+         * Creates an image modal where we're going to display the full image size
+         *
+         * @param id
+         * @param src
+         * @param text
+         *
+         * @returns {*|jQuery|HTMLElement}
+         */
+        const createOriginalImageModal = (id, src, text) => {
+          const modal = $('<div />', {
+            class: `flickr-${id} modal fade`,
+            tabindex: -1,
+            role: 'dialog'
+          });
+          const dialog = $('<div />', { class: 'modal-dialog mw-100 modal-dialog-centered' });
+          const content = $('<div />', { class: 'modal-content' });
+          const img = $('<img />', { src, class: 'img-responsive mx-auto' });
+
+          content.append(img);
+          dialog.append(content);
+          modal.append(dialog);
+
+          return modal;
         }
 
       })
