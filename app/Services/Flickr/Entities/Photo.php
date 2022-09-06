@@ -53,4 +53,15 @@ class Photo extends Support\Entity
             'm'
         );
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray(): array
+    {
+        return array_merge(parent::toArray(), [
+            'thumbnail_url' => $this->thumbnailUrl(),
+            'original_url' => $this->originalUrl(),
+        ]);
+    }
 }

@@ -72,4 +72,25 @@ class PhotoTest extends TestCase
 
         $this->assertEquals('https://live.staticflickr.com//__b.jpg', $photo->originalUrl());
     }
+
+    /**
+     * Verifies that the `thumbnail_url` and `original_url` is being returned when
+     * casting to an array
+     *
+     * @return void
+     */
+    public function testToArray_shouldReturnThumbnailUrlAndOriginalUrl()
+    {
+        $attributes = [
+            'server' => 'server-id',
+            'id' => 'id',
+            'secret' => 'secret',
+        ];
+
+        $photo = new Photo($attributes);
+        $array = $photo->toArray();
+
+        $this->assertEquals('https://live.staticflickr.com/server-id/id_secret_b.jpg', $array['original_url']);
+        $this->assertEquals('https://live.staticflickr.com/server-id/id_secret_m.jpg', $array['thumbnail_url']);
+    }
 }
