@@ -21,7 +21,19 @@ class PhotosControllerTest extends TestCase
         parent::setUp();
 
         $this->user = User::factory()->create();
-        $this->be($this->user);
+    }
+
+    /**
+     * Verifies that when accessing gallery photos while not authenticated, the user
+     * is redirected back to the login page.
+     *
+     * @return void
+     */
+    public function testIndex_whenNotLoggedIn_shouldRedirectToLoginPage()
+    {
+        $response = $this->get(route('gallery.photos', ['galleryId' => 1234]));
+
+        $response->assertRedirect(route('auth.login'));
     }
 
     /**
@@ -32,6 +44,7 @@ class PhotosControllerTest extends TestCase
      */
     public function testIndex_byDefault_shouldLimitReturnedPhotosTo100()
     {
+        $this->be($this->user);
         $mock = $this->partialMock(
             PhotoRepository::class,
             function (Mockery\MockInterface $mock) {
@@ -57,6 +70,7 @@ class PhotosControllerTest extends TestCase
      */
     public function testIndex_shouldReadPaginateUsingQueryParameters()
     {
+        $this->be($this->user);
         $mock = $this->partialMock(
             PhotoRepository::class,
             function (Mockery\MockInterface $mock) {
@@ -88,6 +102,7 @@ class PhotosControllerTest extends TestCase
      */
     public function testIndex_whenPerPageIsNotInteger_shouldLimitTo100()
     {
+        $this->be($this->user);
         $mock = $this->partialMock(
             PhotoRepository::class,
             function (Mockery\MockInterface $mock) {
@@ -118,6 +133,7 @@ class PhotosControllerTest extends TestCase
      */
     public function testIndex_shouldReturnPhotosFromRepository()
     {
+        $this->be($this->user);
         $collection = new Collection(collect(['id' => 'my-photos-id']));
         $this->app->bind(
             PhotoRepository::class,
@@ -143,6 +159,21 @@ class PhotosControllerTest extends TestCase
     }
 
     /**
+     * Verifies that when accessing gallery photos' infor while not authenticated,
+     * the user is redirected back to the login page.
+     *
+     * @return void
+     */
+    public function testShow_whenNotLoggedIn_shouldRedirectToLoginPage()
+    {
+        $response = $this->get(
+            route('gallery.photos.info', ['galleryId' => 1234, 'photoId' => 1234])
+        );
+
+        $response->assertRedirect(route('auth.login'));
+    }
+
+    /**
      * Verifies that when getting a photo's information, it returns the data from our
      * Photos repository
      *
@@ -150,6 +181,7 @@ class PhotosControllerTest extends TestCase
      */
     public function testShow_shouldReturnPhotoFromRepository()
     {
+        $this->be($this->user);
         $photo = new Photo(['id' => 'photo-id']);
         $this->app->bind(
             PhotoRepository::class,
