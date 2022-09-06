@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RedirectController;
 use App\Http\Controllers\GalleriesController;
+use App\Http\Controllers\PhotosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,5 +31,9 @@ Route::group(['prefix' => 'auth', 'middleware' => ['guest']], function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', function () { return view('gallery'); })->name('home');
-    Route::get('gallery', GalleriesController::class)->name('gallery');
+
+    Route::prefix('gallery')->group(function () {
+        Route::get('/', GalleriesController::class)->name('gallery');
+        Route::get('/{galleryId}/photos', PhotosController::class)->name('gallery.photos');
+    });
 });
