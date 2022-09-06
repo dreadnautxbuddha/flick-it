@@ -22,7 +22,7 @@ class PhotoTest extends TestCase
 
         $photo = new Photo($attributes);
 
-        $this->assertEquals('https://live.staticflickr.com/server-id/id_secret_s.jpg', $photo->thumbnailUrl());
+        $this->assertEquals('https://live.staticflickr.com/server-id/id_secret_m.jpg', $photo->thumbnailUrl());
     }
 
     /**
@@ -37,7 +37,7 @@ class PhotoTest extends TestCase
 
         $photo = new Photo($attributes);
 
-        $this->assertEquals('https://live.staticflickr.com//__s.jpg', $photo->thumbnailUrl());
+        $this->assertEquals('https://live.staticflickr.com//__m.jpg', $photo->thumbnailUrl());
     }
 
     /**
@@ -55,7 +55,7 @@ class PhotoTest extends TestCase
 
         $photo = new Photo($attributes);
 
-        $this->assertEquals('https://live.staticflickr.com/server-id/id_secret.jpg', $photo->originalUrl());
+        $this->assertEquals('https://live.staticflickr.com/server-id/id_secret_b.jpg', $photo->originalUrl());
     }
 
     /**
@@ -70,6 +70,6 @@ class PhotoTest extends TestCase
 
         $photo = new Photo($attributes);
 
-        $this->assertEquals('https://live.staticflickr.com//_.jpg', $photo->originalUrl());
+        $this->assertEquals('https://live.staticflickr.com//__b.jpg', $photo->originalUrl());
     }
 }

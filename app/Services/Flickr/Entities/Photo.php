@@ -14,13 +14,13 @@ use function sprintf;
 class Photo extends Support\Entity
 {
     /**
-     * The image url format to the original file size
+     * The image url format to a custom size
      *
      * Find more about it {@link https://www.flickr.com/services/api/misc.urls.html here}
      *
      * @const string
      */
-    const URL_FORMAT = 'https://live.staticflickr.com/%s/%s_%s.jpg';
+    const URL_FORMAT_WITH_SIZE = 'https://live.staticflickr.com/%s/%s_%s_%s.jpg';
 
     /**
      * Returns a URL to the full-sized version of the photo.
@@ -30,10 +30,11 @@ class Photo extends Support\Entity
     public function originalUrl(): string
     {
         return sprintf(
-            self::URL_FORMAT,
+            self::URL_FORMAT_WITH_SIZE,
             $this->get('server'),
             $this->get('id'),
             $this->get('secret'),
+            'b'
         );
     }
 
@@ -45,10 +46,11 @@ class Photo extends Support\Entity
     public function thumbnailUrl(): string
     {
         return sprintf(
-            self::URL_FORMAT,
+            self::URL_FORMAT_WITH_SIZE,
             $this->get('server'),
             $this->get('id'),
-            $this->get('secret') . '_s'
+            $this->get('secret'),
+            'm'
         );
     }
 }
