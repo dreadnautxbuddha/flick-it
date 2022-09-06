@@ -4,6 +4,7 @@ namespace Tests\Unit\app\Http\Controllers;
 
 use App\Models\User;
 use App\Services\Flickr\Entities\Collection;
+use App\Services\Flickr\Entities\Photo;
 use App\Services\Flickr\Repositories\Support\Contracts\PhotoRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
@@ -137,6 +138,41 @@ class PhotosControllerTest extends TestCase
 
         $this->assertEquals(
             ['data' => $collection->toArray()],
+            $request->getOriginalContent()
+        );
+    }
+
+    /**
+     * Verifies that when getting a photo's information, it returns the data from our
+     * Photos repository
+     *
+     * @return void
+     */
+    public function testShow_shouldReturnPhotoFromRepository()
+    {
+        $photo = new Photo(['id' => 'photo-id']);
+        $this->app->bind(
+            PhotoRepository::class,
+            function () use ($photo) {
+                return $this->partialMock(
+                    PhotoRepository::class,
+                    function (Mockery\MockInterface $mock) use ($photo) {
+                        $mock
+                            ->shouldReceive('find')
+                            ->with('photo-id')
+                            ->once()
+                            ->andReturn($photo);
+                    }
+                );
+            }
+        );
+
+        $request = $this->get(
+            route('gallery.photos.info', ['galleryId' => 12345, 'photoId' => 'photo-id'])
+        );
+
+        $this->assertEquals(
+            ['data' => $photo->toArray()],
             $request->getOriginalContent()
         );
     }
