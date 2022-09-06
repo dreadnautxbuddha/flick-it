@@ -1,8 +1,7 @@
 <?php
 
-namespace Tests\Unit\app\Http\Controllers\Auth;
+namespace Tests\Unit\app\Http\Controllers;
 
-use App\Models\User;
 use Tests\TestCase;
 use function route;
 

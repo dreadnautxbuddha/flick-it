@@ -2,6 +2,9 @@
 
 namespace App\Services\Flickr\Entities;
 
+use Illuminate\Contracts\Support\Arrayable;
+use function collect;
+
 /**
  * Represents a collection of data returned from a repository.
  *
@@ -9,7 +12,7 @@ namespace App\Services\Flickr\Entities;
  *
  * @author  Peter Cortez <innov.petercortez@gmail.com>
  */
-class Collection
+class Collection implements Arrayable
 {
     /**
      * The current page we're at.
@@ -47,6 +50,11 @@ class Collection
     protected $records;
 
     /**
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
      * @param \Illuminate\Support\Collection $records
      * @param int|null                       $page
      * @param int|null                       $pages
@@ -60,11 +68,13 @@ class Collection
         ?int $perPage = null,
         ?int $total = null
     ) {
-        $this->records = $records;
-        $this->page = $page;
-        $this->pages = $pages;
-        $this->perPage = $perPage;
-        $this->total = $total;
+        $this->attributes = [
+            'records' => $records,
+            'page' => $page,
+            'pages' => $pages,
+            'perPage' => $perPage,
+            'total' => $total,
+        ];
     }
 
     /**
@@ -74,6 +84,14 @@ class Collection
      */
     public function getRecords(): \Illuminate\Support\Collection
     {
-        return $this->records;
+        return $this->attributes['records'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray(): array
+    {
+        return collect($this->attributes)->toArray();
     }
 }
