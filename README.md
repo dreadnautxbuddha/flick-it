@@ -20,11 +20,18 @@ Now, the environment variables:
 $ cp .env.example .env
 ```
 
-Then, you're going to have to modify these variables:
+Then, modify these Flickr-related environment variables:
 * `FLICKR_APP_API_KEY`
 * `FLICKR_APP_API_SECRET`
 
 Get your own API key and secret from Flickr by creating an app [here](https://www.flickr.com/services/apps/create/apply/).
+
+Then the database environment variables:
+* `DB_HOST`
+* `DB_PORT`
+* `DB_DATABASE`
+* `DB_USERNAME`
+* `DB_PASSWORD`
 
 ## Application Key
 Laravel uses application keys to encrypt cookies, so this is basically required. You can generate one by running:
@@ -36,7 +43,7 @@ $ php artisan key:generate
 When authenticating a user, we save its information in our database so that Laravel's authentication mechanism may remember their info. So let's
 create the appropriate tables in our database by running:
 ```shell
-$ php artisan migrate --seed
+$ php artisan migrate
 ```
 
 # Development
@@ -45,3 +52,11 @@ The API in this project has already been unit tested. Try them out by running:
 ```shell
 $ vendor/bin/phpunit
 ```
+
+## Running the app locally
+When running the application locally, just run:
+```shell
+$ php artisan serve
+```
+
+> Note: When running the artisan local server, make sure to point the `APP_URL` environment variable to the appropriate URL and port. i.e., `http://localhost:8000`
