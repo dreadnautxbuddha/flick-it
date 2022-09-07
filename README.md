@@ -36,7 +36,7 @@ $ php artisan key:generate
 When authenticating a user, we save its information in our database so that Laravel's authentication mechanism may remember their info. So let's
 create the appropriate tables in our database by running:
 ```shell
-$ php artisan migrate --seed
+$ php artisan migrate
 ```
 
 # Development
@@ -44,4 +44,10 @@ $ php artisan migrate --seed
 The API in this project has already been unit tested. Try them out by running:
 ```shell
 $ vendor/bin/phpunit
+```
+
+## Running the app locally
+When running the application locally, just run:
+```shell
+$ php artisan serve
 ```
