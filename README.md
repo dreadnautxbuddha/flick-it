@@ -1,7 +1,7 @@
-![Image](public/img/app.png "Figured")
+![Image](public/img/app.png)
 
 # Overview
-A technical exam by [Peter Paul C. Cortez](mailto:innov.petercortez@gmail.com) for [compareclub](https://compareclub.com.au/) which shows a Flickr user's gallery and its photos.
+A project that shows a Flickr user's gallery and its photos.
 
 # Setup
 ## System Requirements
